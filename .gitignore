@@ -1,0 +1,15 @@
+.DS_Store
+Thumbs.db
+
+bower_components
+node_modules
+npm-debug.log
+dump.rdb
+
+web/css/vendor/*
+web/js/vendor/*
+web/js/app/templates/*
+
+dist
+
+!.keep
