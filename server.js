@@ -11,7 +11,7 @@ nko('3_Mk0APeN1ebtVr7', function (err, res) {
     }
     if (res) {
         res.on('data', function (data) {
-            console.info(data.toString());
+            console.info('Node Knockout supervision data', data);
         });
     }
 });

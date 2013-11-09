@@ -1,6 +1,7 @@
 'use strict';
 
 var path = require('path'),
+    http = require('http'),
     _ = require('underscore'),
     async = require('async'),
     mongoose = require('mongoose'),
@@ -24,6 +25,10 @@ var App = function () {
         init = function (done) {
             var tasks = [];
 
+            tasks.push(asynchronize.bind(app, function () {
+                app.server = http.createServer(app);
+            }));
+
             // Create Winston logger
             var logger = require('./core/logger');
             tasks.push(asynchronize.bind(app, function () {
@@ -43,6 +48,12 @@ var App = function () {
             tasks.push(asynchronize.bind(app, function () {
                 app.use(express.favicon(path.join(root, 'web/favicon.ico')));
             }));
+
+            // SocketIO
+            tasks.push(function (callback) {
+                app.io = require('./core/socket-io');
+                app.log.notice('Loaded Socket.IO', callback);
+            });
 
             // Assets
             tasks.push(function (callback) {
@@ -121,7 +132,7 @@ var App = function () {
 
         listen = function (done) {
             var port = app.config.port || 8000;
-            app.listen(port, function (err) {
+            app.server.listen(port, function (err) {
                 if (err) {
                     return done(err);
                 }

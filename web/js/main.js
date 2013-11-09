@@ -6,6 +6,9 @@ require.config({
         'two': {
             exports: 'Two'
         }
+    },
+    paths: {
+        'socket.io': '../socket.io/socket.io.js'
     }
 });
 
