@@ -42,8 +42,8 @@ exports = module.exports = {
         },
         passport: {
             facebook: {
-                clientID: 'something here',
-                clientSecret: 'something here'
+                clientID: '234631683367403',
+                clientSecret: 'a486b468339c5fc54bb5dbc3560812df'
             }
         }
     }
