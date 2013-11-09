@@ -72,9 +72,7 @@ var Passport = function () {
                 if (!req.user) {
                     tasks.push(user.save.bind(user));
                 }
-                tasks.push(function (callback) {
-                    tasks.push(account.save.bind(account));
-                });
+                tasks.push(account.save.bind(account));
 
                 async.series(tasks, function (err) {
                     if (err) {

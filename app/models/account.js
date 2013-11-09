@@ -4,8 +4,8 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var schema = new Schema({
-    provider: { type: String, required: true },
-    uid: { type: String, required: true },
+    provider: { type: String },
+    uid: { type: String },
 
     token: String,
     secret: String,
