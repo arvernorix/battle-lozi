@@ -1,0 +1,30 @@
+{
+  "bitwise": true,
+  "camelcase": true,
+  "curly": true,
+  "eqeqeq": true,
+  "forin": true,
+  "immed": true,
+  "indent": 4,
+  "latedef": true,
+  "newcap": true,
+  "noarg": true,
+  "noempty": true,
+  "quotmark": "single",
+  "undef": true,
+  "unused": true,
+  "strict": true,
+  "trailing": true,
+  "maxparams": 5,
+  "maxdepth": 3,
+  "boss": true,
+  "eqnull": true,
+  "browser": true,
+  "node": true,
+  "globals": {
+    "require": true,
+    "define": true,
+    "alert": true,
+    "app": true
+  }
+}

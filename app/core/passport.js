@@ -20,9 +20,14 @@ var Passport = function () {
     });
 
     // Generic callback
-    this.callback = function (provider, req, token, secret, profile, done) {
+    this.callback = function (provider, req, options, done) {
 
-        var strategy = strategies[provider],
+        var opts = options || {},
+            token = opts.token,
+            secret = opts.secret,
+            profile = opts.profile,
+
+            strategy = strategies[provider],
             uid = strategy.uid(profile);
 
         Account
@@ -57,16 +62,17 @@ var Passport = function () {
                 }
 
             } else {
-                var user = req.user || strategy.user(profile),
-                    account = new Account({
-                        provider: provider,
-                        uid: uid,
+                var user = req.user || strategy.user(profile);
 
-                        token: token,
-                        secret: secret,
+                account = new Account({
+                    provider: provider,
+                    uid: uid,
 
-                        user: user
-                    });
+                    token: token,
+                    secret: secret,
+
+                    user: user
+                });
 
                 var tasks = [];
                 if (!req.user) {

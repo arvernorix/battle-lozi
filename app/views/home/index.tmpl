@@ -1,0 +1,8 @@
+<p>
+    <% if (locals.authenticated) { %>
+        Hello, <%= locals.user.displayName %><br />
+        <a href="/logout">Logout</a>
+    <% } else { %>
+        <a href="/auth/facebook">Login with Facebook</a>
+    <% } %>
+</p>

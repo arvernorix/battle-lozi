@@ -105,14 +105,13 @@ var App = function () {
             // Views and template engine
             tasks.push(function (callback) {
                 app.set('views', path.join(root, 'app/views'));
-                app.set('view engine', 'hbs');
-                app.set('view options', { layout: 'layouts/base' });
+                app.set('view engine', 'tmpl');
 
-                var viewLoader = require('./core/view-loader');
-                viewLoader.load(app, function () {
-                    app.use(viewLoader.middleware(app));
-                    app.log.notice('Initialized view engine', callback);
-                });
+                app.engine('tmpl', require('uinexpress').__express);
+
+                app.use(require('./core/view-loader').middleware(app));
+
+                app.log.notice('Loaded view engine', callback);
             });
 
             tasks.push(require('./core/router').route);

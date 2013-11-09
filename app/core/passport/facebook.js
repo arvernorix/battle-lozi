@@ -6,7 +6,13 @@ var passport = require('passport'),
     User = require('../../models/user');
 
 var config = app.config.passport.facebook,
-    callback = passport.callback.bind(passport, 'facebook');
+    callback = function (req, token, secret, profile, done) {
+        passport.callback('facebook', req, {
+            token: token,
+            secret: secret,
+            profile: profile
+        }, done);
+    };
 
 config.passReqToCallback = true;
 

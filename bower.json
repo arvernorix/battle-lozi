@@ -1,0 +1,25 @@
+{
+  "name": "nko4-lozi",
+  "version": "0.0.0",
+  "description": "Battle LOZI",
+  "homepage": "http://lozi.2013.nodeknockout.com",
+  "authors": [
+    "Meo <arvernorix@gmail.com>",
+    "Chym <angelwing1001@gmail.com>"
+  ],
+  "main": "web/js/main.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "html5shiv": "3.7.0",
+    "requirejs": "2.1.9",
+    "jquery": "2.0.3",
+    "bootstrap": "3.0.2",
+    "two": "0.3.0"
+  }
+}

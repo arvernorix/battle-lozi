@@ -28,8 +28,7 @@ var Logger = function () {
     };
 
     this.create = function (config) {
-        var env = config.env || 'development',
-            opts = config.logger || {},
+        var opts = config.logger || {},
             logger = new winston.Logger(LOG_CONFIG);
 
         switch (opts.type) {

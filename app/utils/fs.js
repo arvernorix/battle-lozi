@@ -7,7 +7,7 @@ var fs = require('fs'),
 
 var FsUtils = function () {
 
-    var _traverse = function (root, dir, matched, ignored, iterator, callback) {
+    var _traverse = function (root, dir, matched, ignored, iterator, callback) { // jshint ignore:line
         var self = this,
             tasks = [];
 
@@ -40,7 +40,7 @@ var FsUtils = function () {
         }
 
         async.parallel(tasks, callback);
-    }
+    };
 
     this.traverse = function (root) {
         var args = Array.prototype.slice.call(arguments);

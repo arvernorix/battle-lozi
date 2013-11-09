@@ -1,8 +1,7 @@
 'use strict';
 
 var define = require('../../node_modules/constants').define,
-    extend = require('extend'),
-    _ = require('underscore');
+    extend = require('extend');
 
 var ObjectHelper = function () {
 
@@ -11,10 +10,10 @@ var ObjectHelper = function () {
     this.pick = function (obj, keys) {
         var ret = {};
         for(var i = 0; i < keys.length; i++) {
-            var path = keys[i].split('.'),
+            var parts = keys[i].split('.'),
                 o = obj;
-            for (var j = 0; j < str.length; j++){
-                o = o[str[j]];
+            for (var j = 0; j < parts.length; j++){
+                o = o[parts[j]];
             }
             ret[keys[i]] = o;
         }

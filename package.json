@@ -2,6 +2,10 @@
   "name": "nko4-lozi",
   "version": "0.0.0",
   "description": "Battle LOZI",
+  "contributors": [
+    "Meo <arvernorix@gmail.com>",
+    "Chym <angelwing1001@gmail.com>"
+  ],
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -22,10 +26,22 @@
     "connect-redis": "1.4.5",
     "connect-flash": "0.1.1",
     "express": "3.4.4",
-    "hbs": "2.4.0",
+    "uinexpress": "0.0.5",
     "less-middleware": "0.1.12",
     "passport": "0.1.17",
     "passport-facebook": "1.0.2"
+  },
+  "devDependencies": {
+    "matchdep": "0.3.0",
+    "mkdirp": "0.3.5",
+    "grunt": "0.4.1",
+    "grunt-mkdir": "0.1.1",
+    "grunt-contrib-requirejs": "0.4.1",
+    "grunt-contrib-clean": "0.5.0",
+    "grunt-contrib-copy": "0.4.1",
+    "grunt-contrib-jshint": "0.7.1",
+    "grunt-contrib-less": "0.8.1",
+    "bootstrap-amd": "git://github.com/arvernorix/bootstrap-amd.git#1.0.5"
   },
   "engines": {
     "node": "0.10.x"

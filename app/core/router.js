@@ -14,6 +14,6 @@ var Router = function () {
         }, done);
     };
 
-}
+};
 
 exports = module.exports = new Router();
