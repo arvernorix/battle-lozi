@@ -15,7 +15,7 @@ function (io) {
             socket.on('news', function (data) {
                 console.log(JSON.stringify(data));
                 socket.emit('other', { message: 'Hello from Socket.IO client!' });
-            })
+            });
         };
 
     };

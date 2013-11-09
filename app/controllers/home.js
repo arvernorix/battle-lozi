@@ -10,7 +10,7 @@ var HomeController = function () {
         socket.emit('news', { message: 'Hello world!' });
         socket.on('other', function (data) {
             app.log.info(data);
-        })
+        });
     });
 
 };
