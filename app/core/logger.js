@@ -35,7 +35,7 @@ var Logger = function () {
         switch (opts.type) {
             case 'console':
                 var level = opts.level || 'debug';
-                if (!LOG_CONFIG.levels[level]) {
+                if (typeof LOG_CONFIG.levels[level] === 'undefined') {
                     throw new Error('Bad logger level!');
                 }
 
