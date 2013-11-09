@@ -3,7 +3,7 @@
 require.config({
     baseUrl: '/js',
     shim: {
-        'two': {
+        'vendor/two': {
             exports: 'Two'
         }
     },

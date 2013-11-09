@@ -1,14 +1,13 @@
-/* global $ */
-
 'use strict';
 
 define([
     'socket.io',
+    'vendor/jquery',
     'vendor/two',
-    'vendor/jquery'
+    'vendor/jwerty'
 ],
 
-function (io, Two) {
+function (io) {
 
     var App = function () {
 
@@ -21,7 +20,7 @@ function (io, Two) {
                 socket.emit('other', { message: 'Hello from Socket.IO client!' });
             });
 
-            var config = {
+            /*var config = {
                 gridSize: 50
             };
 
@@ -59,7 +58,7 @@ function (io, Two) {
 
             $('#start').on('click', function () {
                 two.play();
-            });
+            });*/
         };
 
     };

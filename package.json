@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "matchdep": "0.3.0",
+    "mkdirp": "0.3.5",
     "grunt": "0.4.1",
     "grunt-mkdir": "0.1.1",
     "grunt-contrib-requirejs": "0.4.1",

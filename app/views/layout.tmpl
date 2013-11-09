@@ -21,10 +21,7 @@
     <![endif]-->
     <script src="/js/vendor/require.js"></script>
     <script>
-        window.LOZI = {};
-        define('locals', [], function () {
-            return '<%= JSON.stringify(locals)  %>';
-        });
+        window.locals = '<%= JSON.stringify(locals) %>';
     </script>
     <script src="/js/main.js"></script>
 </head>

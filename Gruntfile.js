@@ -2,7 +2,10 @@
 
 var fs = require('fs'),
     path = require('path'),
-    childProcess = require('child_process');
+    childProcess = require('child_process'),
+    mkdirp = require('mkdirp'),
+    _ = require('underscore'),
+    async = require('async');
 
 exports = module.exports = function (grunt) {
 
@@ -80,6 +83,9 @@ exports = module.exports = function (grunt) {
                 }, {
                     src: 'bower_components/two/build/two.js',
                     dest: 'web/js/vendor/two.js'
+                }, {
+                    src: 'bower_components/jwerty/jwerty.js',
+                    dest: 'web/js/vendor/jwerty.js'
                 }]
             },
             cssBowerToVendor: {
@@ -106,6 +112,11 @@ exports = module.exports = function (grunt) {
                 noTransition: true
             },
             default: []
+        },
+        template: {
+            src: 'app/views',
+            dest: 'web/js/app/templates',
+            ext: 'tmpl'
         },
         requirejs: {
             dist: {
@@ -224,6 +235,73 @@ exports = module.exports = function (grunt) {
         }
     });
 
+    grunt.registerTask('template', 'Build templates', function buildTemplates() {
+        var callback = grunt.task.current.async(),
+
+            data = grunt.config.get('template') || {},
+            ext = '.' + (data.ext || 'tmpl'),
+            src = data.src || 'app/views',
+            dest = data.dest || 'web/js/app/templates',
+            mode = grunt.config.get('mkdir.options.mode') || '0755',
+
+            templates = [],
+            tasks = [],
+
+            buildFile = function (callback) {
+                var input = templates.splice(0, 1)[0],
+                    output = path.join(dest, path.relative(src, input));
+
+                output = path.join(path.dirname(output), path.basename(output, ext) + '.js');
+
+                var parentDir = path.dirname(output);
+                if (!fs.existsSync(parentDir)) {
+                    mkdirp.sync(parentDir, mode);
+                }
+
+                fs.readFile(input, 'utf8', function (err, data) {
+                    grunt.log.write('Converting "' + input + '"...');
+                    if (err) {
+                        grunt.log.writeln('Failed'.red);
+                        return callback(err);
+                    }
+
+                    var content =
+                        'define([], ' +
+                        'function () {\n' +
+                            'return ' + _.template(data).source + ';' +
+                        '\n});';
+
+                    fs.writeFileSync(output, content);
+                    grunt.log.writeln('OK'.green);
+
+                    callback(null);
+                });
+            },
+
+            buildDirectory = function (dir, callback) {
+                var files = fs.readdirSync(dir);
+
+                files.forEach(function (fileName) {
+                    var filePath = path.join(dir, fileName),
+                        stat = fs.statSync(filePath);
+
+                    if (stat.isDirectory()) {
+                        buildDirectory(filePath);
+
+                    } else if (stat.isFile() && path.extname(filePath) === ext) {
+                        templates.push(filePath);
+                        tasks.push(buildFile);
+                    }
+                });
+
+                if (callback) {
+                    async.parallel(tasks, callback);
+                }
+            };
+
+        buildDirectory(src, callback);
+    });
+
     grunt.registerTask('build', 'Build stuffs', function buildTarget(target) {
         target = target || 'dev';
 
@@ -254,9 +332,9 @@ exports = module.exports = function (grunt) {
 
             'clean:tmp',
 
-            /*'clean:templates',
+            'clean:templates',
             'mkdir:templates',
-            'handlebars'*/
+            'template'
         ];
 
         if (target === 'prod') {
