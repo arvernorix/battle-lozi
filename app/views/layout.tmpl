@@ -30,11 +30,13 @@
 </head>
 
 <body>
-    <div>
-        <iframe src="http://nodeknockout.com/iframe/lozi" frameborder="0" scrolling="no" allowtransparency="true" width="115" height="25">
-            Your browser doesn't support iframe, please upgrade to a newer browser.
-        </iframe>
-    </div>
+    <% if (app.env === 'production') { %>
+        <div>
+            <iframe src="http://nodeknockout.com/iframe/lozi" frameborder="0" scrolling="no" allowtransparency="true" width="115" height="25">
+                Your browser doesn't support iframe, please upgrade to a newer browser.
+            </iframe>
+        </div>
+    <% } %>
     <%= body %>
 </body>
 </html>

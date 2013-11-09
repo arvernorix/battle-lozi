@@ -10,6 +10,8 @@ var ViewLoader = function () {
 
             app.locals({
                 locals: {
+                    env: app.env,
+
                     authenticated:  (req.user ? true : false),
                     user:           user,
 
