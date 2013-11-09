@@ -114,6 +114,9 @@ exports = module.exports = function (grunt) {
                     baseUrl: './',
                     mainConfigFile: 'web/js/main.js',
                     name: 'main',
+                    paths: {
+                        'socket.io': 'empty:'
+                    },
                     dir: 'dist/js',
                     optimize: 'uglify2',
                     wrap: true

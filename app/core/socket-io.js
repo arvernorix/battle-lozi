@@ -33,7 +33,7 @@ io.set('authorization', function (handshakeData, callback) {
         handshakeData.sessionId = connect.utils.parseSignedCookie(handshakeData.cookie[sessionKey], sessionSecret);
 
         if (handshakeData.cookie[sessionKey] === handshakeData.sessionId) {
-            return callback(new Error('Cookie is invalid!'));
+            return callback(new Error('Invalid cookie!'));
         }
 
     } else {
@@ -41,14 +41,21 @@ io.set('authorization', function (handshakeData, callback) {
     }
 
     app.sessionStore.get(handshakeData.sessionId, function (err, data) {
-        if (err || !data) {
-            return callback(err || new Error('Invalid session!'));
+        if (err) {
+            return callback(err);
         }
 
-        var userId = data.passport.user;
+        var userId = (data && data.passport ? data.passport.user : null);
+        if (!userId) {
+            return callback(null, false);
+        }
+
         User.findById(userId, function (err, user) {
-            if (err || !user) {
-                return callback(err || new Error('User\'s not found!'));
+            if (err) {
+                return callback(err);
+            }
+            if (!user) {
+                return callback(null, false);
             }
 
             handshakeData.user = user;
