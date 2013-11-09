@@ -23,7 +23,6 @@ var AuthController = function () {
     }));
 
     app.get('/auth/facebook/callback', passport.authenticate('facebook', {
-        callbackURL: '/auth/facebook/callback',
         successRedirect: '/',
         successFlash: 'Welcome to Battle LOZI!',
         failureRedirect: '/login',
