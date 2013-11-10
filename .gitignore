@@ -6,6 +6,8 @@ node_modules
 npm-debug.log
 dump.rdb
 
+app/views/game
+
 web/css/vendor/*
 web/js/vendor/*
 web/js/app/templates/*

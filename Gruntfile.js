@@ -20,6 +20,7 @@ exports = module.exports = function (grunt) {
             templates: [ 'web/js/app/templates' ],
             bootstrapLessCssWeb: [ 'web/css/bootstrap' ],
             requireJsBuildTxt: [ 'dist/js/build.txt' ],
+            game: [ 'app/views/game' ]
         },
         mkdir: {
             options: {
@@ -102,6 +103,14 @@ exports = module.exports = function (grunt) {
                     dest: 'web/css/vendor/bootstrap'
                 }]
             },
+            game: {
+                files: [{
+                    expand: true,
+                    cwd: 'app/game/sprites',
+                    src: '**/*.tmpl',
+                    dest: 'app/views/game'
+                }]
+            }
         },
         css: {
             default: []
@@ -269,7 +278,7 @@ exports = module.exports = function (grunt) {
                         'define([], ' +
                         'function () {\n' +
                             'return ' + _.template(data).source + ';' +
-                        '\n});';
+                        '\n});\n';
 
                     fs.writeFileSync(output, content);
                     grunt.log.writeln('OK'.green);
@@ -334,7 +343,10 @@ exports = module.exports = function (grunt) {
 
             'clean:templates',
             'mkdir:templates',
-            'template'
+            'template',
+
+            'clean:game',
+            'copy:game'
         ];
 
         if (target === 'prod') {
