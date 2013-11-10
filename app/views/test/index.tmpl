@@ -12,7 +12,7 @@
             var two = new Two({
                 //type: Two.Types.canvas,
                 autostart: true,
-                width: 600,
+                width: 1200,
                 height: 600
             }).appendTo(document.getElementById('canvas'));
 
@@ -94,10 +94,11 @@
                         gy = Math.round((y - gridSize / 2) / gridSize),
 
                         rx = gx * gridSize + gridSize / 2,
-                        ry = gy * gridSize + gridSize / 2 - object.sprites[index].height / 2;
+                        ry = gy * gridSize + gridSize / 2;
 
+                    // TODO: Reduce speed here
                     if (object.direction % 2) { // left, right
-                        var delta = ry - y + object.sprites[index].height / 2;
+                        var delta = ry - y;
                         delta = (delta < 0 ? Math.max(delta, -1.3) : Math.min(delta, 1.3));
                         object.translation.addSelf(new Two.Vector(0, delta));
 
