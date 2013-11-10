@@ -102,14 +102,6 @@ exports = module.exports = function (grunt) {
                     src: '*.less',
                     dest: 'web/css/vendor/bootstrap'
                 }]
-            },
-            game: {
-                files: [{
-                    expand: true,
-                    cwd: 'app/game/sprites',
-                    src: '**/*.tmpl',
-                    dest: 'app/views/game'
-                }]
             }
         },
         css: {
@@ -343,10 +335,7 @@ exports = module.exports = function (grunt) {
 
             'clean:templates',
             'mkdir:templates',
-            'template',
-
-            'clean:game',
-            'copy:game'
+            'template'
         ];
 
         if (target === 'prod') {

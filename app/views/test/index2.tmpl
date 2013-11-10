@@ -1,0 +1,71 @@
+<div id="canvas"></div>
+
+<script>
+    require([
+        'app/game/core/game',
+        'app/game/models/game-object'
+    ],
+    function (Game, GameObject) {
+
+        var game = new Game();
+        game.init('canvas');
+
+        var lozi = new GameObject(game, 'characters/lozi', 5, 5);
+
+            var keyFlags = {},
+
+                getLastKey = function () {
+                    var last = null;
+                    for (var keyCode in keyFlags) {
+                        if (keyFlags.hasOwnProperty(keyCode)) {
+                            if (!last || keyFlags[last] < keyFlags[keyCode]) {
+                                last = keyCode;
+                            }
+                        }
+                    }
+                    return (last ? parseInt(last, 10) : null);
+                },
+
+                triggerKey = function () {
+                    var keyCode = getLastKey();
+                    switch (keyCode) {
+                        case 37: // left
+                            lozi.direction = 2;
+                            break;
+                        case 38: // up
+                            lozi.direction = 1;
+                            break;
+                        case 39: // right
+                            lozi.direction = 3;
+                            break;
+                        case 40: // down
+                            lozi.direction = 4;
+                            break;
+                    }
+                    lozi.setDefaultSprite();
+                };
+
+            window.addEventListener('keydown', function (e) {
+                if (e.keyCode < 37 || e.keyCode > 40) {
+                    return;
+                }
+                keyFlags[e.keyCode] = new Date().getTime();
+                triggerKey(getLastKey());
+            });
+
+            window.addEventListener('keyup', function (e) {
+                if (e.keyCode < 37 || e.keyCode > 40) {
+                    return;
+                }
+
+                var keyCode = getLastKey();
+                if (keyCode === e.keyCode) {
+                    lozi.direction = 0;
+                }
+
+                delete keyFlags[e.keyCode];
+                triggerKey(keyCode);
+            });
+
+    });
+</script>
