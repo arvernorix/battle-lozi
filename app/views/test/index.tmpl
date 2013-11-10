@@ -1,5 +1,5 @@
 <div id="canvas"></div>
-
+<div id="shoot" style="display: none; position: absolute; top: 650px; color: red;"><h1>SHOOT!!!</h1></div>
 <script>
     require([
         'app/templates/game/characters/lozi',
@@ -150,7 +150,7 @@
                     }
                 };
 
-            window.addEventListener('keydown', function (e) {
+            $('body').on('keydown', function (e) {
                 if (e.keyCode < 37 || e.keyCode > 40) {
                     return;
                 }
@@ -158,7 +158,7 @@
                 triggerKey();
             });
 
-            window.addEventListener('keyup', function (e) {
+            $('body').on('keyup', function (e) {
                 if (e.keyCode < 37 || e.keyCode > 40) {
                     return;
                 }
@@ -202,5 +202,187 @@
             });
 
         });
+
+        var Controller = function (object) {
+
+            var triggerDown = function (keyCode) {
+                var e = $.Event('keydown', { keyCode: keyCode, which: keyCode });
+                $('body').trigger(e);
+            };
+
+            var triggerUp = function (keyCode) {
+                var e = $.Event('keyup', { keyCode: keyCode, which: keyCode });
+                $('body').trigger(e);
+            };
+
+            this.keyDownLeft = function () {
+                triggerDown(37);
+            };
+
+            this.keyDownUp = function () {
+                triggerDown(38);
+            };
+
+            this.keyDownRight = function () {
+                triggerDown(39);
+            };
+
+            this.keyDownDown = function () {
+                triggerDown(40);
+            };
+
+            this.keyUpLeft = function () {
+                triggerUp(37);
+            };
+
+            this.keyUpUp = function () {
+                triggerUp(38);
+            };
+
+            this.keyUpRight = function () {
+                triggerUp(39);
+            };
+
+            this.keyUpDown = function () {
+                triggerUp(40);
+            };
+
+            this.shoot = function () {
+                $('#shoot').show();
+                setTimeout(function () {
+                    $('#shoot').hide();
+                }, 700);
+            };
+
+        };
+
+        var controller = new Controller();
+
+        var AI = function (controller, moveWeight, shootWeight, shootWeightIncrement) {
+            this.controller = controller;
+
+            var LEFT = 0,
+                UP = 1,
+                RIGHT = 2,
+                DOWN = 3,
+                STOP = 4,
+                SHOOT = 5;
+            var actions = [ LEFT, UP, RIGHT, DOWN, STOP, SHOOT ];
+            var weights = [ 0.1 * moveWeight, 0.1 * moveWeight, 0.1 * moveWeight, 0.1 * moveWeight, 0.6 * moveWeight, shootWeight ];
+            weights = weights;
+            var rand = function(min, max) {
+                return Math.random() * (max - min) + min;
+            };
+
+            var getAction = function () {
+                var totalWeight = _.reduce(weights, function (mem, num) {
+                    return mem + num;
+                });
+
+                var randomNum = rand(0, totalWeight);
+                var weightSum = 0;
+
+                for (var i = 0; i < actions.length; i++) {
+                    weightSum += weights[i];
+                    weightSum = +weightSum.toFixed(2);
+
+                    if (randomNum <= weightSum) {
+                        return actions[i];
+                    }
+                }
+            };
+
+            var lastAction = -1;
+
+            var act = function () {
+                var action = getAction(),
+                    res = {};
+                if (action === SHOOT) {
+                    if (lastAction === SHOOT) {
+                        var next = Math.round(rand(0, 4));
+                        weights[next] = 0.6 * moveWeight;
+                        weights[5] = shootWeight;
+                        for (var i = 0; i < 5; i++) {
+                            if (i != next) {
+                                weights[i] = 0.1 * moveWeight;
+                            }
+                        }
+                    } else {
+                        var next = lastAction;
+                        weights[next] += weights[5] - shootWeight;
+                        weights[5] = shootWeight;
+                    }
+                } else {
+                    weights[5] += shootWeightIncrement;
+                    if (action != lastAction) {
+                        var remaining = moveWeight - (weights[5] - shootWeight);
+                        weights[action] = 0.6 * remaining;
+                        for (var i = 0; i < 5; i++) {
+                            if (i != action) {
+                                weights[i] = 0.1 * remaining;
+                            }
+                        }
+                    } else {
+                        for (var i = 0; i < 5; i++) {
+                            weights[i] -= shootWeightIncrement / 5;
+                        }
+                    }
+                }
+                res.lastAction = lastAction;
+                res.action = action;
+                lastAction = action;
+                return res;
+            };
+
+            this.move = function () {
+                var action = act();
+                if (action.lastAction !== action.action) {
+                    switch (action.lastAction) {
+                        case LEFT:
+                            this.controller.keyUpLeft();
+                            break;
+                        case UP:
+                            this.controller.keyUpUp();
+                            break;
+                        case RIGHT:
+                            this.controller.keyUpRight();
+                            break;
+                        case DOWN:
+                            this.controller.keyUpDown();
+                            break;
+                        case STOP:
+                            break;
+                        case SHOOT:
+                            break;
+                    }
+                    switch (action.action) {
+                        case LEFT:
+                            this.controller.keyDownLeft();
+                            break;
+                        case UP:
+                            this.controller.keyDownUp();
+                            break;
+                        case RIGHT:
+                            this.controller.keyDownRight();
+                            break;
+                        case DOWN:
+                            this.controller.keyDownDown();
+                            break;
+                        case STOP:
+                            break;
+                        case SHOOT:
+                            this.controller.shoot();
+                            break;
+                    }
+                }
+            }
+        };
+
+        var ai = new AI(controller, 1, 0.3, 0.01);
+
+        setInterval(function () {
+            ai.move();
+        }, 1000);
+
     });
 </script>
