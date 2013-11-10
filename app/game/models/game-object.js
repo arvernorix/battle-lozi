@@ -82,11 +82,9 @@
             this.translation.add((acx - cx) - (oacx - ocx), (acy - cy) - (oacy - ocy));
 
             if (Two) {
-                console.log('show ' + this.spriteIndex);
                 this.sprites[this.spriteIndex].visible = true;
                 this.two.translation.set(this.x + this.translation.x, this.y + this.translation.y);
                 if (this.oldSpriteIndex !== this.spriteIndex) {
-                    console.log('hide ' + this.oldSpriteIndex);
                     this.sprites[this.oldSpriteIndex].visible = false;
                 }
             }

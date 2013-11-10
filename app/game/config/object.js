@@ -10,7 +10,7 @@
                 speed: 1.3,
 
                 defaultDirection: 4, // down
-                directionSprites: [ 0, 12, 0, 17, 7 ],
+                directionSprites: [ 0, 0, 12, 17, 7 ],
 
                 sprites: [
                     { width: 42.862, height: 52.745, cx: 21.431, cy: 52.745 },
