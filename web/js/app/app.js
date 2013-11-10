@@ -3,8 +3,7 @@
 define([
     'socket.io',
     'vendor/jquery',
-    'vendor/two',
-    'vendor/jwerty'
+    'vendor/two'
 ],
 
 function (io) {
